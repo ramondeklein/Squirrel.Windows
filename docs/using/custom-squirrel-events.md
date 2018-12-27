@@ -45,6 +45,12 @@ static int Main(string[] args)
 }
 ```
 
+## Time constraints for Squirrel events
+
+Both the `onInitialInstall` and `onAppUpdate` event handlers can only run for 15 seconds. The `onAppUninstall` and `onAppObsoleted` handlers are limited to 10 seconds. If you exceed these limits, then the process is terminated and Squirrel continues its operation. These event handlers should only be used for actions that will complete within a few seconds.
+
+If you need to run migrations (or some other lengthy task) during the upgrade, then don't do this during the `onAppUpdate` event. It's better to migrate the data when your application starts the next time, so you can also inform the user about the migration. These kind of lengthy tasks should be prevented as much as possible, because the aim of Squirrel is to provide seamless updates without bothering the user.
+
 ## App Setup Helper Methods
 
 These methods help you to set up your application in Squirrel events - if you're not using custom Squirrel events, you probably don't need to call these methods.
